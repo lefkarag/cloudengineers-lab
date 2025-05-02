@@ -6,7 +6,7 @@ phases:
       - echo "Preparing website files for deployment..."
       
 artifacts:
-  base-directory: 'website'  # Specify your website folder here
+  base-directory: 'website'
   files:
     - '**/*'
   discard-paths: no
