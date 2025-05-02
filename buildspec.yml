@@ -1,0 +1,37 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+  
+  pre_build:
+    commands:
+      - echo "Installing AWS CLI and dependencies..."
+      - pip install --upgrade awscli
+      - aws --version
+  
+  build:
+    commands:
+      - echo "Deploying CloudFormation stack started on `date`"
+      - |
+        aws cloudformation deploy \
+          --template-file cf-template.yaml \
+          --stack-name static-website-stack \
+          --capabilities CAPABILITY_NAMED_IAM
+      - echo "Extracting S3 bucket name from the CloudFormation stack..."
+      - S3_BUCKET=$(aws cloudformation describe-stacks --stack-name static-website-stack --query "Stacks[0].Outputs[?OutputKey=='S3BucketName'].OutputValue" --output text)
+      - echo "Deploying static website files to S3 bucket: $S3_BUCKET"
+      - aws s3 sync website/ s3://$S3_BUCKET/
+  
+  post_build:
+    commands:
+      - echo "Deployment completed on `date`"
+      - WEBSITE_URL=\$(aws cloudformation describe-stacks --stack-name static-website-stack --query "Stacks[0].Outputs[?OutputKey=='S3WebsiteURL'].OutputValue" --output text)
+      - echo "Website URL: \$WEBSITE_URL"
+
+artifacts:
+  files:
+    - cf-template.yaml
+    - buildspec.yml
+  discard-paths: yes
