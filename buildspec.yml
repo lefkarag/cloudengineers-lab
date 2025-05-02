@@ -28,7 +28,6 @@ phases:
     commands:
       - echo "Deployment completed on `date`"
       - WEBSITE_URL=\$(aws cloudformation describe-stacks --stack-name static-website-stack --query "Stacks[0].Outputs[?OutputKey=='S3WebsiteURL'].OutputValue" --output text)
-      - echo "Website URL: \$WEBSITE_URL"
 
 artifacts:
   files:
