@@ -47,6 +47,66 @@ Many traditional e-commerce solutions rely on server-based architectures that ar
 * Secure HTTPS access with web traffic protection
 * Optimized delivery of high-resolution product images
 
+### Deployment Instructions
+
+This project is deployed using **AWS CloudFormation** to make the setup simple and repeatable.
+
+#### Prerequisites
+
+* An AWS account
+* AWS CLI installed and configured
+* A registered domain name (optional, but recommended)
+
+---
+
+#### Deployment Steps
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/your-username/serverless-ecommerce-aws.git
+   cd serverless-ecommerce-aws
+   ```
+
+2. **Deploy the CloudFormation Stack**
+
+   ```bash
+   aws cloudformation deploy \
+     --template-file template.yaml \
+     --stack-name serverless-ecommerce \
+     --capabilities CAPABILITY_NAMED_IAM
+   ```
+
+3. **Upload Website Files to S3**
+
+    After the stack is deployed, copy your static website files to the S3 bucket created by CloudFormation:
+
+   ```bash
+   aws s3 sync ./website s3://<S3_BUCKET_NAME>
+   ```
+
+4. **Get the Website URL**
+
+   * After deployment completes, retrieve the CloudFront distribution URL from the CloudFormation outputs.
+   * (Optional) Point your domain to CloudFront using Route 53.
+
+5. **Access the Website**
+
+   * Open the CloudFront URL or custom domain in your browser.
+   * Your e-commerce website is now live and globally accessible.
+
+---
+
+#### CloudFormation Template
+
+The `template.yaml` provisions:
+
+* An S3 bucket for static website hosting
+* A CloudFront distribution with HTTPS
+* An ACM SSL certificate
+* A WAF web ACL
+* Optional Route 53 DNS records
+
 ### Live Demo
 
 👉 **[https://shopme.example.com](https://shopme.example.com)**
