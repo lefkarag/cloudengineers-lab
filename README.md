@@ -57,8 +57,6 @@ This project is deployed using **AWS CloudFormation** to make the setup simple a
 * AWS CLI installed and configured
 * A registered domain name (optional, but recommended)
 
----
-
 #### Deployment Steps
 
 1. **Clone the Repository**
