@@ -95,17 +95,6 @@ This project is deployed using **AWS CloudFormation** to make the setup simple a
    * Open the CloudFront URL or custom domain in your browser.
    * Your e-commerce website is now live and globally accessible.
 
----
-
-#### CloudFormation Template
-
-The `template.yaml` provisions:
-
-* An S3 bucket for static website hosting
-* A CloudFront distribution with HTTPS
-* An ACM SSL certificate
-* A WAF web ACL
-* Optional Route 53 DNS records
 
 ### Live Demo
 
